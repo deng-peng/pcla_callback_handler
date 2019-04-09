@@ -16,10 +16,10 @@ class PcHandlerController extends Controller
             abort(400);
 
         $pci = new PcItem();
-        $pci->url = $request->input('url');
-        $pci->pc_status = $request->input('pc_status');
-        $pci->original_status = $request->input('original_status');
-        $pci->body = $request->input('body');
+        $pci->url = $request->json('url', '');
+        $pci->pc_status = $request->json('pc_status', '');
+        $pci->original_status = $request->json('original_status', '');
+        $pci->body = $request->json('body', '');
         $pci->process_status = 0;
         $pci->save();
 
