@@ -18,7 +18,7 @@ class CreatePcItemsTable extends Migration
             $table->string('url');
             $table->smallInteger('pc_status');
             $table->smallInteger('original_status');
-            $table->text('body');
+            $table->mediumText('body');
             $table->smallInteger('process_status')->index();
             $table->timestamps();
         });
