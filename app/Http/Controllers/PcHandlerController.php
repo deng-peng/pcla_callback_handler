@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PcItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class PcHandlerController extends Controller
@@ -15,15 +16,19 @@ class PcHandlerController extends Controller
         if ($token != 'pcla')
             abort(400);
 
+        $decompressed = gzdecode($request->getContent());
+//        Log::debug($decompressed);
+
+        $data_arr = json_decode($decompressed, true);
+//        Log::debug($data_arr);
+
         $pci = new PcItem();
-        $pci->url = $request->json('url', '');
-        $pci->pc_status = $request->json('pc_status', '');
-        $pci->original_status = $request->json('original_status', '');
-        $pci->body = $request->json('body', '');
+        $pci->url = Arr::get($data_arr, 'url');
+        $pci->pc_status = Arr::get($data_arr, 'pc_status');
+        $pci->original_status = Arr::get($data_arr, 'original_status');
+        $pci->body = Arr::get($data_arr, 'body');
         $pci->process_status = 0;
         $pci->save();
-
-        return response();
     }
 
     public function test(Request $request)
